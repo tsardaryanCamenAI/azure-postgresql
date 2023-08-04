@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"metadata": {
+		"description": "Template to revive / resurrect a dropped flexible server"
+	},
+	"parameters": {
+		"location": {
+			"type": "String"
+		},
+		"serverName": {
+			"type": "String"
+		},
+		"droppedServerResourceId": {
+			"type": "String"
+		}
+	},
+	"resources": [
+		{
+			"type": "Microsoft.DBforPostgreSQL/flexibleServers",
+			"apiVersion": "2023-03-01-preview",
+			"name": "[parameters('serverName')]",
+			"location": "[parameters('location')]",
+			"properties": {
+				"createMode": "ReviveDropped",
+				"SourceServerResourceId": "[parameters('droppedServerResourceId')]"
+			}
+		}
+	]
+}
